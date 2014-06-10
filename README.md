@@ -1,0 +1,4 @@
+ConfigManager
+=============
+
+Generic configuration manager
