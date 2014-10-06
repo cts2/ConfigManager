@@ -31,8 +31,8 @@ import unittest
 import argparse
 import os
 
-from config.ConfigArgs import ConfigArgs, ConfigArg
-from config.ConfigManager import ConfigManager
+from ConfigManager.ConfigArgs import ConfigArgs, ConfigArg
+from ConfigManager.ConfigManager import ConfigManager
 
 
 # TODO: add a way to clear out the configuration manager completely so that all of the test cases can run without
