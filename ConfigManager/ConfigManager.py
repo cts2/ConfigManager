@@ -44,6 +44,15 @@ class ConfigManager(object):
         return cls._configfile
 
     @classmethod
+    def clear_configfile(cls):
+        """ Unload the current configuration file.
+        """
+        if cls._configfile:
+            cls.flush()
+        cls._configfile = None
+        cls._config_parser = ConfigParser()
+
+    @classmethod
     def set_configfile(cls, cfgfile, override=False):
         """ Establish the location of the configuration file.  This method should be called once from the
         main portion of the executing program
@@ -83,14 +92,13 @@ class ConfigManager(object):
         """
         self._section = parms.section
         self._keys = parms.keys()
-        self._dirty = False
-        self._loader_queue.append((self, parms))
-        if self._configfile:
+        ConfigManager._loader_queue.append((self, parms))
+        if ConfigManager._configfile:
             self._load_section(parms)
 
 
     def _load_section(self, parms):
-        # print "Loading " + self._configfile + "[" + parms.section + "]"
+        # print "Loading " + ConfigManager._configfile + "[" + parms.section + "]"
         if self._section not in self._config_parser.sections():
             self._config_parser.setdefault(self._section, {})
             self.update(parms.values())
@@ -106,7 +114,7 @@ class ConfigManager(object):
             self.__dict__[key] = value
         elif self._config_parser[self._section].get(key) != value:
             self._config_parser[self._section][key] = value
-            self._dirty = True
+            ConfigManager._dirty = True
 
     def asdict(self):
         """ Return the configuration variables as a dictionary """
