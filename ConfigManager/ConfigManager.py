@@ -32,7 +32,7 @@ from configparser import ConfigParser
 
 
 class ConfigManager(object):
-    _configfile = None
+    _configfile = ''
     _loader_queue = []
     _dirty = False
     _config_parser = ConfigParser()
@@ -49,7 +49,7 @@ class ConfigManager(object):
         """
         if cls._configfile:
             cls.flush()
-        cls._configfile = None
+        cls._configfile = ''
         cls._config_parser = ConfigParser()
 
     @classmethod
@@ -84,7 +84,6 @@ class ConfigManager(object):
             return True
         return False
 
-
     def __init__(self, parms):
         """ Construct a configuration manager for a given section.
         @param parms: configuration arguments
@@ -95,7 +94,6 @@ class ConfigManager(object):
         ConfigManager._loader_queue.append((self, parms))
         if ConfigManager._configfile:
             self._load_section(parms)
-
 
     def _load_section(self, parms):
         # print "Loading " + ConfigManager._configfile + "[" + parms.section + "]"
